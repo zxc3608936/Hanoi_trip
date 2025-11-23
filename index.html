@@ -3,358 +3,435 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>河內 6天5夜 奢華雙龍之旅</title>
+    <title>河內 6天5夜 互動行程表</title>
     <style>
         :root {
-            --primary-color: #008080; /* Teal - 像下龍灣的水色 */
-            --accent-color: #D35400; /* Burnt Orange - 像古街的建築 */
-            --bg-color: #f9f9f9;
-            --card-bg: #ffffff;
-            --text-color: #333;
+            --primary: #008080; /* Teal */
+            --accent: #D35400; /* Burnt Orange */
+            --bg: #f4f7f6;
+            --card: #ffffff;
+            --text: #333;
+            --done: #aaa;
         }
 
         body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
             margin: 0;
-            padding: 0;
+            padding-bottom: 60px; /* For safety */
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
         }
 
-        /* Header Section */
+        /* Header */
         header {
-            background: linear-gradient(135deg, var(--primary-color), #004d4d);
+            background: linear-gradient(135deg, var(--primary), #005757);
             color: white;
-            padding: 30px 20px;
+            padding: 25px 15px;
             border-radius: 0 0 20px 20px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
         }
 
-        header h1 { margin: 0; font-size: 2em; }
-        header p { margin: 10px 0 0; font-size: 1.1em; opacity: 0.9; }
-        
-        .flight-info {
+        header h1 { margin: 0; font-size: 1.8em; }
+        .flight-badge {
             background: rgba(255,255,255,0.2);
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 15px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
             display: inline-block;
+            margin-top: 10px;
+        }
+
+        /* Action Buttons */
+        .btn-group {
+            display: inline-flex;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .btn {
+            border: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            transition: transform 0.1s;
+        }
+        .btn:active { transform: scale(0.95); }
+
+        .btn-map { background: #e3f2fd; color: #1565c0; }
+        .btn-copy { background: #f3e5f5; color: #7b1fa2; }
+        
+        /* Toast Notification */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 12px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
             font-size: 0.9em;
         }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
 
-        /* Hotel Section */
-        .hotels {
-            display: flex;
-            gap: 15px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
 
-        .hotel-card {
-            flex: 1;
-            min-width: 250px;
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            border-left: 5px solid var(--accent-color);
-        }
-
-        .hotel-card h3 { margin-top: 0; color: var(--primary-color); font-size: 1.1em; }
-        .hotel-card small { display: block; color: #666; margin-top: 5px; }
-
-        /* Itinerary Section */
-        .timeline {
-            position: relative;
-            margin-top: 30px;
-        }
-
+        /* Timeline & Accordion */
         .day-block {
-            background: var(--card-bg);
+            background: var(--card);
             border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-            position: relative;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            overflow: hidden;
         }
 
         .day-header {
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
+            padding: 15px 20px;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
+            user-select: none;
         }
 
-        .day-title {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: var(--primary-color);
+        .day-header:hover { background-color: #fafafa; }
+        
+        .day-title { font-weight: bold; color: var(--primary); font-size: 1.1em; }
+        .day-date { color: #888; font-size: 0.9em; }
+        .toggle-icon { transition: transform 0.3s; font-weight: bold; color: #ccc; }
+        
+        .day-content {
+            display: none; /* Hidden by default */
+            padding: 0 20px 20px 20px;
+            animation: slideDown 0.3s ease-out;
         }
 
-        .day-date {
-            font-size: 0.9em;
-            color: #888;
-            font-weight: bold;
-        }
+        .day-block.active .day-content { display: block; }
+        .day-block.active .toggle-icon { transform: rotate(180deg); }
 
+        /* Activity Items */
         .activity {
-            margin-bottom: 15px;
-            padding-left: 15px;
-            border-left: 3px solid #eee;
+            position: relative;
+            padding-left: 30px;
+            margin-top: 20px;
         }
+        
+        .activity::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 5px;
+            bottom: -25px;
+            width: 2px;
+            background: #eee;
+        }
+        .activity:last-child::before { display: none; }
 
-        .activity:last-child { margin-bottom: 0; }
+        /* Checkbox styling */
+        .checkbox-wrapper {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
 
         .time {
             font-weight: bold;
-            color: var(--accent-color);
-            font-size: 0.95em;
-            display: block;
-        }
-
-        .highlight {
-            background-color: #fff3cd;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-weight: bold;
-            color: #856404;
-        }
-
-        .tip-box {
-            background-color: #e8f6f3;
-            border: 1px solid #b2d8d2;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 30px;
+            color: var(--accent);
             font-size: 0.9em;
+            display: block;
+            margin-bottom: 2px;
         }
 
-        .tip-box h3 { margin-top: 0; color: var(--primary-color); }
+        .location-name { font-weight: 600; }
+        .completed .location-name, .completed .desc {
+            text-decoration: line-through;
+            color: var(--done);
+        }
 
-        /* Footer */
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            color: #888;
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Quick Links Sticky Header */
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            background: rgba(255,255,255,0.95);
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            z-index: 100;
+            display: flex;
+            justify-content: space-around;
             font-size: 0.8em;
-            padding-bottom: 20px;
+            backdrop-filter: blur(5px);
         }
+        .sticky-nav a { text-decoration: none; color: var(--primary); font-weight: bold; }
 
-        /* Print adjustments */
-        @media print {
-            body { background: #fff; }
-            .container { max-width: 100%; }
-            header { background: #fff; color: #000; border-bottom: 2px solid #000; }
-            .flight-info { background: #eee; color: #000; border: 1px solid #ccc; }
-        }
     </style>
 </head>
 <body>
 
+    <div class="sticky-nav">
+        <a href="#hotel1">🏨 La Mejor</a>
+        <a href="#hotel2">🏨 PARKROYAL</a>
+        <a href="#food">🦀 Poseidon</a>
+    </div>
+
     <div class="container">
         <header>
-            <h1>🇻🇳 河內 6天5夜 深度之旅</h1>
-            <p>下龍灣遊輪 ‧ 陸龍灣 ‧ 海鮮吃到飽</p>
-            <div class="flight-info">
-                ✈️ <b>去程:</b> 1/24 CI791 (08:25 - 10:35) <br>
-                ✈️ <b>回程:</b> 1/29 CI794 (17:30 - 21:10)
+            <h1>🇻🇳 河內 6天5夜</h1>
+            <div class="flight-badge">
+                ✈️ 去: CI791 (10:35抵達) | 回: CI794 (17:30起飛)
             </div>
         </header>
 
-        <section class="hotels">
-            <div class="hotel-card">
-                <h3>🏨 前2晚: La Mejor Indochine</h3>
-                <div>📍 古街區 (東河門旁)</div>
-                <small>方便逛夜市、去火車街</small>
-            </div>
-            <div class="hotel-card">
-                <h3>🚢 第3晚: Grand Pioneer Cruise</h3>
-                <div>📍 下龍灣海上</div>
-                <small>頂級郵輪、需帶行李上船</small>
-            </div>
-            <div class="hotel-card">
-                <h3>🏨 後2晚: PARKROYAL Suites</h3>
-                <div>📍 西湖區 (Tay Ho)</div>
-                <small>湖景、安靜、離 Poseidon 較順路</small>
-            </div>
-        </section>
-
-        <div class="timeline">
-
-            <div class="day-block">
-                <div class="day-header">
-                    <span class="day-title">Day 1：古街探險 & 火車街</span>
+        <div class="day-block active">
+            <div class="day-header" onclick="toggleDay(this)">
+                <div>
+                    <span class="day-title">Day 1: 古街 & 火車街</span> <br>
                     <span class="day-date">1/24 (六)</span>
                 </div>
-                <div class="activity">
-                    <span class="time">10:35</span>
-                    抵達河內機場，專車前往飯店。
-                </div>
-                <div class="activity">
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="day-content">
+                <div class="activity" id="hotel1">
+                    <div class="checkbox-wrapper"><input type="checkbox" onclick="toggleDone(this)"></div>
                     <span class="time">12:30</span>
-                    抵達 <b>La Mejor Indochine Hotel</b> 辦理入住/寄放行李。
+                    <span class="location-name">La Mejor Indochine Hotel</span>
+                    <div class="desc">辦理入住 / 寄放行李</div>
+                    <div class="btn-group">
+                        <button class="btn btn-copy" onclick="copyText('58-62 Pho Dao Duy Tu, Hoan Kiem')">📋 複製地址</button>
+                        <a href="https://maps.app.goo.gl/Search?q=La+Mejor+Indochine+Hotel" target="_blank" class="btn btn-map">🗺️ 導航</a>
+                    </div>
                 </div>
+
                 <div class="activity">
-                    <span class="time">13:00</span>
-                    午餐：<b>Bun Cha Ta</b> (烤肉米線) 或 <b>Pho 10</b>。
+                    <div class="checkbox-wrapper"><input type="checkbox" onclick="toggleDone(this)"></div>
+                    <span class="time">14:30 (重點)</span>
+                    <span class="location-name">火車街 (Train Street)</span>
+                    <div class="desc">找家咖啡廳等 15:20 的火車</div>
+                    <div class="btn-group">
+                        <button class="btn btn-copy" onclick="copyText('5 Tran Phu, Hang Bong')">📋 複製地址</button>
+                        <a href="https://maps.app.goo.gl/Search?q=5+Tran+Phu+Hanoi" target="_blank" class="btn btn-map">🗺️ 導航</a>
+                    </div>
                 </div>
+
                 <div class="activity">
-                    <span class="time">14:30 - 15:30 📸 重點行程</span>
-                    前往 <span class="highlight">火車街 (Train Street)</span>。
-                    <br>地點：5 Tran Phu 路口。隨意找家咖啡廳坐下，等待約 <b>15:20</b> 的火車經過。
-                </div>
-                <div class="activity">
+                    <div class="checkbox-wrapper"><input type="checkbox" onclick="toggleDone(this)"></div>
                     <span class="time">18:30</span>
-                    逛 <b>週末夜市</b> (從 Hang Dao 街開始) 或體驗 <b>Ta Hien 啤酒街</b>。
+                    <span class="location-name">週末夜市 & 啤酒街</span>
+                    <div class="desc">感受河內夜生活</div>
                 </div>
             </div>
+        </div>
 
-            <div class="day-block">
-                <div class="day-header">
-                    <span class="day-title">Day 2：陸龍灣一日遊</span>
+        <div class="day-block">
+            <div class="day-header" onclick="toggleDay(this)">
+                <div>
+                    <span class="day-title">Day 2: 陸龍灣一日遊</span> <br>
                     <span class="day-date">1/25 (日)</span>
                 </div>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="day-content">
                 <div class="activity">
+                    <div class="checkbox-wrapper"><input type="checkbox" onclick="toggleDone(this)"></div>
                     <span class="time">07:45</span>
-                    導遊至 La Mejor Indochine 接駁。
+                    <span class="location-name">飯店接送</span>
+                    <div class="desc">前往寧平 (華閻古都、長安遊船、臥龍山)</div>
                 </div>
                 <div class="activity">
-                    <span class="time">上午</span>
-                    參觀 <b>華閻古都 (Hoa Lu)</b>。
-                </div>
-                <div class="activity">
-                    <span class="time">下午</span>
-                    <b>長安 (Trang An) 遊船</b> (穿越鐘乳石洞) ➔ 挑戰 <b>臥龍山 (Mua Cave)</b> 看全景。
-                </div>
-                <div class="activity">
+                    <div class="checkbox-wrapper"><input type="checkbox" onclick="toggleDone(this)"></div>
                     <span class="time">19:30</span>
-                    返回河內。晚餐推薦：<b>Essence Restaurant</b> 或 <b>Banh Mi 25</b>。
+                    <span class="location-name">晚餐: Essence Restaurant</span>
+                    <div class="desc">精緻越南菜</div>
+                    <div class="btn-group">
+                        <a href="https://maps.app.goo.gl/Search?q=Essence+Restaurant+Hanoi" target="_blank" class="btn btn-map">🗺️ 導航</a>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <div class="day-block">
-                <div class="day-header">
-                    <span class="day-title">Day 3：Grand Pioneer 郵輪</span>
+        <div class="day-block">
+            <div class="day-header" onclick="toggleDay(this)">
+                <div>
+                    <span class="day-title">Day 3: Grand Pioneer 郵輪</span> <br>
                     <span class="day-date">1/26 (一)</span>
                 </div>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="day-content">
                 <div class="activity">
+                    <div class="checkbox-wrapper"><input type="checkbox" onclick="toggleDone(this)"></div>
                     <span class="time">08:15</span>
-                    郵輪接駁車接送。<span class="highlight">⚠️ 請退房並帶走所有行李</span>。
+                    <span class="location-name">⚠️ 退房 & 接送</span>
+                    <div class="desc">帶所有行李上接駁車，前往下龍灣</div>
                 </div>
                 <div class="activity">
+                    <div class="checkbox-wrapper"><input type="checkbox" onclick="toggleDone(this)"></div>
                     <span class="time">12:00</span>
-                    抵達下龍灣碼頭，登船 Check-in。
-                </div>
-                <div class="activity">
-                    <span class="time">下午</span>
-                    參觀驚訝洞、划獨木舟、享受船上泳池與夕陽派對。
-                </div>
-                <div class="activity">
-                    <span class="time">晚上</span>
-                    船上精緻晚餐、釣小管活動。
+                    <span class="location-name">登船 & 午餐</span>
+                    <div class="desc">下午行程：驚訝洞、獨木舟、泳池</div>
                 </div>
             </div>
+        </div>
 
-            <div class="day-block">
-                <div class="day-header">
-                    <span class="day-title">Day 4：郵輪歸來 & 轉場西湖</span>
+        <div class="day-block">
+            <div class="day-header" onclick="toggleDay(this)">
+                <div>
+                    <span class="day-title">Day 4: 轉場西湖區</span> <br>
                     <span class="day-date">1/27 (二)</span>
                 </div>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="day-content">
                 <div class="activity">
-                    <span class="time">上午</span>
-                    太極拳、最後島嶼巡禮、早午餐。
-                </div>
-                <div class="activity">
+                    <div class="checkbox-wrapper"><input type="checkbox" onclick="toggleDone(this)"></div>
                     <span class="time">11:30</span>
-                    下船，搭接駁車返回河內。
+                    <span class="location-name">下船 & 返回河內</span>
                 </div>
-                <div class="activity">
+                <div class="activity" id="hotel2">
+                    <div class="checkbox-wrapper"><input type="checkbox" onclick="toggleDone(this)"></div>
                     <span class="time">14:30</span>
-                    抵達河內。轉乘 Grab 前往西湖區 <b>PARKROYAL Serviced Suites</b> 入住。
+                    <span class="location-name">PARKROYAL Serviced Suites</span>
+                    <div class="desc">辦理入住 (西湖區)</div>
+                    <div class="btn-group">
+                        <button class="btn btn-copy" onclick="copyText('5 Dang Thai Mai, Tay Ho')">📋 複製地址</button>
+                        <a href="https://maps.app.goo.gl/Search?q=PARKROYAL+Serviced+Suites+Hanoi" target="_blank" class="btn btn-map">🗺️ 導航</a>
+                    </div>
                 </div>
                 <div class="activity">
-                    <span class="time">晚上</span>
-                    西湖畔散步。晚餐推薦：<b>Pepe la Poule</b> 或 <b>Pizza 4P's</b>。
+                    <div class="checkbox-wrapper"><input type="checkbox" onclick="toggleDone(this)"></div>
+                    <span class="time">晚餐</span>
+                    <span class="location-name">Pepe la Poule</span>
+                    <div class="desc">西湖畔景觀餐廳</div>
+                    <div class="btn-group">
+                        <button class="btn btn-copy" onclick="copyText('22 Quang Khanh, Tay Ho')">📋 複製地址</button>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <div class="day-block">
-                <div class="day-header">
-                    <span class="day-title">Day 5：古蹟 & 海神吃到飽</span>
+        <div class="day-block">
+            <div class="day-header" onclick="toggleDay(this)">
+                <div>
+                    <span class="day-title">Day 5: 海神吃到飽 (重點)</span> <br>
                     <span class="day-date">1/28 (三)</span>
                 </div>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="day-content">
                 <div class="activity">
+                    <div class="checkbox-wrapper"><input type="checkbox" onclick="toggleDone(this)"></div>
                     <span class="time">上午</span>
-                    參觀 <b>胡志明陵寢</b>、<b>一柱寺</b>。
+                    <span class="location-name">胡志明陵寢 & 文廟</span>
                 </div>
-                <div class="activity">
-                    <span class="time">中午</span>
-                    午餐：<b>Bun Cha Huong Lien</b> (歐巴馬米線)。
-                </div>
-                <div class="activity">
-                    <span class="time">下午</span>
-                    參觀 <b>文廟</b>、<b>火爐監獄</b>。
-                </div>
-                <div class="activity">
-                    <span class="time">17:30 🦀 晚餐重頭戲</span>
-                    前往 <span class="highlight">Poseidon Buffet (Le Van Luong 分店)</span>。
-                    <br>享受火烤兩吃與海鮮吃到飽！(請務必提前訂位)
-                </div>
-                <div class="activity">
-                    <span class="time">晚上</span>
-                    搭 Grab 回 PARKROYAL 打包行李。
+                <div class="activity" id="food">
+                    <div class="checkbox-wrapper"><input type="checkbox" onclick="toggleDone(this)"></div>
+                    <span class="time">17:30</span>
+                    <span class="location-name">Poseidon Buffet (Le Van Luong)</span>
+                    <div class="desc">🦀 火烤兩吃吃到飽 (記得訂位)</div>
+                    <div class="btn-group">
+                        <button class="btn btn-copy" onclick="copyText('27 Le Van Luong, Hanoi Center Point')">📋 複製地址</button>
+                        <a href="https://maps.app.goo.gl/Search?q=Buffet+Poseidon+Le+Van+Luong" target="_blank" class="btn btn-map">🗺️ 導航</a>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <div class="day-block">
-                <div class="day-header">
-                    <span class="day-title">Day 6：最後採買 & 返台</span>
+        <div class="day-block">
+            <div class="day-header" onclick="toggleDay(this)">
+                <div>
+                    <span class="day-title">Day 6: 返台</span> <br>
                     <span class="day-date">1/29 (四)</span>
                 </div>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="day-content">
                 <div class="activity">
-                    <span class="time">上午</span>
-                    睡到自然醒，享受西湖晨景。
-                </div>
-                <div class="activity">
+                    <div class="checkbox-wrapper"><input type="checkbox" onclick="toggleDone(this)"></div>
                     <span class="time">11:00</span>
-                    退房。可去 <b>Lotte Center</b> 超市買伴手禮。
+                    <span class="location-name">Lotte Center (樂天)</span>
+                    <div class="desc">最後採買伴手禮</div>
                 </div>
                 <div class="activity">
+                    <div class="checkbox-wrapper"><input type="checkbox" onclick="toggleDone(this)"></div>
                     <span class="time">14:00</span>
-                    叫 Grab 前往內排機場 (需約 40 分鐘)。
+                    <span class="location-name">前往機場</span>
+                    <div class="desc">Grab 至內排機場 (約40分)</div>
                 </div>
                 <div class="activity">
+                    <div class="checkbox-wrapper"><input type="checkbox" onclick="toggleDone(this)"></div>
                     <span class="time">17:30</span>
-                    搭乘 <b>CI794</b> 起飛回家。
+                    <span class="location-name">CI794 起飛</span>
                 </div>
             </div>
-
         </div>
 
-        <div class="tip-box">
-            <h3>💡 旅遊小貼士</h3>
-            <ul>
-                <li><b>交通：</b> 全程使用 <b>Grab App</b> 叫車，設定信用卡付款最方便。</li>
-                <li><b>Poseidon 訂位：</b> 第一天入住 La Mejor 時，請櫃檯幫忙打電話預訂 Day 5 晚上的 Poseidon (Le Van Luong 分店)。</li>
-                <li><b>衣物：</b> 1月底河內偏涼，去下龍灣海風大，請帶防風外套。</li>
-                <li><b>簽證：</b> 記得確認電子簽證 (E-Visa) 已列印出來。</li>
-            </ul>
-        </div>
-
-        <footer>
-            祝您旅途愉快！Have a nice trip to Hanoi!
-        </footer>
     </div>
+
+    <div id="toast">地址已複製！ (Address Copied)</div>
+
+    <script>
+        // Toggle Accordion
+        function toggleDay(header) {
+            const block = header.parentElement;
+            block.classList.toggle('active');
+        }
+
+        // Toggle Checkbox visual style
+        function toggleDone(checkbox) {
+            const activity = checkbox.closest('.activity');
+            if (checkbox.checked) {
+                activity.classList.add('completed');
+            } else {
+                activity.classList.remove('completed');
+            }
+        }
+
+        // Copy Text Function
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                showToast();
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+            });
+        }
+
+        // Show Toast Notification
+        function showToast() {
+            const toast = document.getElementById("toast");
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+    </script>
 
 </body>
 </html>
