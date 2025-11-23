@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>河內 6天5夜 奢華雙龍之旅</title>
+    <style>
+        :root {
+            --primary-color: #008080; /* Teal - 像下龍灣的水色 */
+            --accent-color: #D35400; /* Burnt Orange - 像古街的建築 */
+            --bg-color: #f9f9f9;
+            --card-bg: #ffffff;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Section */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #004d4d);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 0 0 20px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 { margin: 0; font-size: 2em; }
+        header p { margin: 10px 0 0; font-size: 1.1em; opacity: 0.9; }
+        
+        .flight-info {
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: inline-block;
+            font-size: 0.9em;
+        }
+
+        /* Hotel Section */
+        .hotels {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .hotel-card {
+            flex: 1;
+            min-width: 250px;
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .hotel-card h3 { margin-top: 0; color: var(--primary-color); font-size: 1.1em; }
+        .hotel-card small { display: block; color: #666; margin-top: 5px; }
+
+        /* Itinerary Section */
+        .timeline {
+            position: relative;
+            margin-top: 30px;
+        }
+
+        .day-block {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        .day-header {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .day-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .day-date {
+            font-size: 0.9em;
+            color: #888;
+            font-weight: bold;
+        }
+
+        .activity {
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 3px solid #eee;
+        }
+
+        .activity:last-child { margin-bottom: 0; }
+
+        .time {
+            font-weight: bold;
+            color: var(--accent-color);
+            font-size: 0.95em;
+            display: block;
+        }
+
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #856404;
+        }
+
+        .tip-box {
+            background-color: #e8f6f3;
+            border: 1px solid #b2d8d2;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 30px;
+            font-size: 0.9em;
+        }
+
+        .tip-box h3 { margin-top: 0; color: var(--primary-color); }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #888;
+            font-size: 0.8em;
+            padding-bottom: 20px;
+        }
+
+        /* Print adjustments */
+        @media print {
+            body { background: #fff; }
+            .container { max-width: 100%; }
+            header { background: #fff; color: #000; border-bottom: 2px solid #000; }
+            .flight-info { background: #eee; color: #000; border: 1px solid #ccc; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🇻🇳 河內 6天5夜 深度之旅</h1>
+            <p>下龍灣遊輪 ‧ 陸龍灣 ‧ 海鮮吃到飽</p>
+            <div class="flight-info">
+                ✈️ <b>去程:</b> 1/24 CI791 (08:25 - 10:35) <br>
+                ✈️ <b>回程:</b> 1/29 CI794 (17:30 - 21:10)
+            </div>
+        </header>
+
+        <section class="hotels">
+            <div class="hotel-card">
+                <h3>🏨 前2晚: La Mejor Indochine</h3>
+                <div>📍 古街區 (東河門旁)</div>
+                <small>方便逛夜市、去火車街</small>
+            </div>
+            <div class="hotel-card">
+                <h3>🚢 第3晚: Grand Pioneer Cruise</h3>
+                <div>📍 下龍灣海上</div>
+                <small>頂級郵輪、需帶行李上船</small>
+            </div>
+            <div class="hotel-card">
+                <h3>🏨 後2晚: PARKROYAL Suites</h3>
+                <div>📍 西湖區 (Tay Ho)</div>
+                <small>湖景、安靜、離 Poseidon 較順路</small>
+            </div>
+        </section>
+
+        <div class="timeline">
+
+            <div class="day-block">
+                <div class="day-header">
+                    <span class="day-title">Day 1：古街探險 & 火車街</span>
+                    <span class="day-date">1/24 (六)</span>
+                </div>
+                <div class="activity">
+                    <span class="time">10:35</span>
+                    抵達河內機場，專車前往飯店。
+                </div>
+                <div class="activity">
+                    <span class="time">12:30</span>
+                    抵達 <b>La Mejor Indochine Hotel</b> 辦理入住/寄放行李。
+                </div>
+                <div class="activity">
+                    <span class="time">13:00</span>
+                    午餐：<b>Bun Cha Ta</b> (烤肉米線) 或 <b>Pho 10</b>。
+                </div>
+                <div class="activity">
+                    <span class="time">14:30 - 15:30 📸 重點行程</span>
+                    前往 <span class="highlight">火車街 (Train Street)</span>。
+                    <br>地點：5 Tran Phu 路口。隨意找家咖啡廳坐下，等待約 <b>15:20</b> 的火車經過。
+                </div>
+                <div class="activity">
+                    <span class="time">18:30</span>
+                    逛 <b>週末夜市</b> (從 Hang Dao 街開始) 或體驗 <b>Ta Hien 啤酒街</b>。
+                </div>
+            </div>
+
+            <div class="day-block">
+                <div class="day-header">
+                    <span class="day-title">Day 2：陸龍灣一日遊</span>
+                    <span class="day-date">1/25 (日)</span>
+                </div>
+                <div class="activity">
+                    <span class="time">07:45</span>
+                    導遊至 La Mejor Indochine 接駁。
+                </div>
+                <div class="activity">
+                    <span class="time">上午</span>
+                    參觀 <b>華閻古都 (Hoa Lu)</b>。
+                </div>
+                <div class="activity">
+                    <span class="time">下午</span>
+                    <b>長安 (Trang An) 遊船</b> (穿越鐘乳石洞) ➔ 挑戰 <b>臥龍山 (Mua Cave)</b> 看全景。
+                </div>
+                <div class="activity">
+                    <span class="time">19:30</span>
+                    返回河內。晚餐推薦：<b>Essence Restaurant</b> 或 <b>Banh Mi 25</b>。
+                </div>
+            </div>
+
+            <div class="day-block">
+                <div class="day-header">
+                    <span class="day-title">Day 3：Grand Pioneer 郵輪</span>
+                    <span class="day-date">1/26 (一)</span>
+                </div>
+                <div class="activity">
+                    <span class="time">08:15</span>
+                    郵輪接駁車接送。<span class="highlight">⚠️ 請退房並帶走所有行李</span>。
+                </div>
+                <div class="activity">
+                    <span class="time">12:00</span>
+                    抵達下龍灣碼頭，登船 Check-in。
+                </div>
+                <div class="activity">
+                    <span class="time">下午</span>
+                    參觀驚訝洞、划獨木舟、享受船上泳池與夕陽派對。
+                </div>
+                <div class="activity">
+                    <span class="time">晚上</span>
+                    船上精緻晚餐、釣小管活動。
+                </div>
+            </div>
+
+            <div class="day-block">
+                <div class="day-header">
+                    <span class="day-title">Day 4：郵輪歸來 & 轉場西湖</span>
+                    <span class="day-date">1/27 (二)</span>
+                </div>
+                <div class="activity">
+                    <span class="time">上午</span>
+                    太極拳、最後島嶼巡禮、早午餐。
+                </div>
+                <div class="activity">
+                    <span class="time">11:30</span>
+                    下船，搭接駁車返回河內。
+                </div>
+                <div class="activity">
+                    <span class="time">14:30</span>
+                    抵達河內。轉乘 Grab 前往西湖區 <b>PARKROYAL Serviced Suites</b> 入住。
+                </div>
+                <div class="activity">
+                    <span class="time">晚上</span>
+                    西湖畔散步。晚餐推薦：<b>Pepe la Poule</b> 或 <b>Pizza 4P's</b>。
+                </div>
+            </div>
+
+            <div class="day-block">
+                <div class="day-header">
+                    <span class="day-title">Day 5：古蹟 & 海神吃到飽</span>
+                    <span class="day-date">1/28 (三)</span>
+                </div>
+                <div class="activity">
+                    <span class="time">上午</span>
+                    參觀 <b>胡志明陵寢</b>、<b>一柱寺</b>。
+                </div>
+                <div class="activity">
+                    <span class="time">中午</span>
+                    午餐：<b>Bun Cha Huong Lien</b> (歐巴馬米線)。
+                </div>
+                <div class="activity">
+                    <span class="time">下午</span>
+                    參觀 <b>文廟</b>、<b>火爐監獄</b>。
+                </div>
+                <div class="activity">
+                    <span class="time">17:30 🦀 晚餐重頭戲</span>
+                    前往 <span class="highlight">Poseidon Buffet (Le Van Luong 分店)</span>。
+                    <br>享受火烤兩吃與海鮮吃到飽！(請務必提前訂位)
+                </div>
+                <div class="activity">
+                    <span class="time">晚上</span>
+                    搭 Grab 回 PARKROYAL 打包行李。
+                </div>
+            </div>
+
+            <div class="day-block">
+                <div class="day-header">
+                    <span class="day-title">Day 6：最後採買 & 返台</span>
+                    <span class="day-date">1/29 (四)</span>
+                </div>
+                <div class="activity">
+                    <span class="time">上午</span>
+                    睡到自然醒，享受西湖晨景。
+                </div>
+                <div class="activity">
+                    <span class="time">11:00</span>
+                    退房。可去 <b>Lotte Center</b> 超市買伴手禮。
+                </div>
+                <div class="activity">
+                    <span class="time">14:00</span>
+                    叫 Grab 前往內排機場 (需約 40 分鐘)。
+                </div>
+                <div class="activity">
+                    <span class="time">17:30</span>
+                    搭乘 <b>CI794</b> 起飛回家。
+                </div>
+            </div>
+
+        </div>
+
+        <div class="tip-box">
+            <h3>💡 旅遊小貼士</h3>
+            <ul>
+                <li><b>交通：</b> 全程使用 <b>Grab App</b> 叫車，設定信用卡付款最方便。</li>
+                <li><b>Poseidon 訂位：</b> 第一天入住 La Mejor 時，請櫃檯幫忙打電話預訂 Day 5 晚上的 Poseidon (Le Van Luong 分店)。</li>
+                <li><b>衣物：</b> 1月底河內偏涼，去下龍灣海風大，請帶防風外套。</li>
+                <li><b>簽證：</b> 記得確認電子簽證 (E-Visa) 已列印出來。</li>
+            </ul>
+        </div>
+
+        <footer>
+            祝您旅途愉快！Have a nice trip to Hanoi!
+        </footer>
+    </div>
+
+</body>
+</html>
