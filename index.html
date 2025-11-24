@@ -2,456 +2,581 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>越南河內6天5夜之旅</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>越南河內 6天5夜之旅</title>
     <style>
         :root {
-            --primary: #00695c; /* Teal Dark */
-            --accent: #d35400; /* Burnt Orange */
-            --bg: #f5f7fa;
-            --card-bg: #ffffff;
-            --text: #2d3436;
-            --flight-bg: #e3f2fd;
-            --flight-text: #0d47a1;
+            /* Palette: Indochine Luxury */
+            --primary: #1A4D3E; /* Deep Forest Green */
+            --secondary: #C5A059; /* Bronze/Gold */
+            --bg: #F8F9FA;
+            --surface: #FFFFFF;
+            --text-main: #2C3E50;
+            --text-light: #7F8C8D;
+            --flight-bg: #EEF7F5;
+            --flight-border: #A3CFC3;
+            --shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+            --radius: 12px;
         }
 
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro TC", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: var(--bg);
-            color: var(--text);
+            color: var(--text-main);
             margin: 0;
-            padding-bottom: 60px;
+            padding-bottom: 80px;
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 700px;
             margin: 0 auto;
-            padding: 20px 15px;
+            padding: 0 20px;
         }
 
-        /* --- Header --- */
+        /* --- Hero Header --- */
         header {
+            background: linear-gradient(135deg, var(--primary) 0%, #0d2b22 100%);
+            color: white;
+            padding: 40px 20px 60px 20px;
             text-align: center;
-            margin-bottom: 30px;
-            padding-top: 10px;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: -30px; /* Overlap effect */
+            box-shadow: 0 4px 20px rgba(26, 77, 62, 0.4);
+            position: relative;
+            z-index: 1;
         }
-        header h1 { color: var(--primary); margin: 0; font-size: 2em; font-weight: 800; letter-spacing: 1px; }
-        header p { color: #636e72; margin: 5px 0 0 0; font-size: 1.1em; }
 
-        /* --- Itinerary Timeline --- */
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            margin: 8px 0 0;
+            font-size: 0.95rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* --- Timeline Structure --- */
+        .timeline-container {
+            position: relative;
+            z-index: 2;
+        }
+
         .day-block {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 25px 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            border-left: 6px solid var(--primary);
+            background: var(--surface);
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.03);
         }
 
         .day-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #F0F0F0;
             display: flex;
             justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #f1f1f1;
-            padding-bottom: 10px;
+            align-items: center;
+            background: #fff;
         }
 
-        .day-title { font-size: 1.4em; font-weight: 800; color: var(--primary); }
-        .day-date { font-weight: bold; color: var(--accent); background: #fff3e0; padding: 4px 12px; border-radius: 20px; font-size: 0.95em; }
-
-        /* Activity Styling */
-        .activity {
-            position: relative;
-            padding-left: 25px;
-            margin-bottom: 30px;
-        }
-        
-        /* Timeline line */
-        .activity::before {
-            content: '';
-            position: absolute;
-            left: 7px;
-            top: 8px;
-            bottom: -30px;
-            width: 2px;
-            background: #eee;
-        }
-        .activity:last-child::before { display: none; }
-
-        /* Bullet point */
-        .activity::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 8px;
-            width: 16px;
-            height: 16px;
-            background: white;
-            border: 4px solid var(--primary);
-            border-radius: 50%;
-            box-sizing: border-box;
-        }
-
-        /* Flight Specific Styling */
-        .activity.flight-info .activity-content {
-            background-color: var(--flight-bg);
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #bbdefb;
-        }
-        .activity.flight-info::after { border-color: var(--flight-text); background: var(--flight-text); }
-        .flight-badge {
-            background: var(--flight-text); color: white; 
-            font-size: 0.75em; padding: 2px 8px; border-radius: 4px; 
-            vertical-align: middle; margin-left: 8px; font-weight: bold;
-        }
-
-        .time {
-            font-weight: 900;
-            color: var(--accent);
-            font-size: 1.1em;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .location-row {
+        .day-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--primary);
             display: flex;
-            flex-wrap: wrap;
             align-items: center;
             gap: 10px;
         }
 
-        .location-name { font-weight: 700; font-size: 1.2em; color: #2d3436; }
-        .desc { color: #636e72; margin-top: 8px; font-size: 1em; line-height: 1.6; }
-
-        /* Buttons */
-        .btn-group { display: inline-flex; gap: 8px; margin-top: 8px; }
-
-        .address-btn {
-            background: #f0f2f5;
-            color: #333;
-            border: 1px solid #dcdcdc;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.85em;
-            cursor: pointer;
+        .day-badge {
+            background: var(--secondary);
+            color: white;
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 20px;
             font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            text-decoration: none;
+            text-transform: uppercase;
         }
 
-        .nav-btn {
-            background: #e3f2fd;
-            color: #1976d2;
-            border: 1px solid #bbdefb;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.85em;
-            cursor: pointer;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            text-decoration: none;
+        .day-date {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 500;
         }
 
-        .nav-btn:hover { background: #bbdefb; }
+        .day-body {
+            padding: 10px 24px 24px 24px;
+        }
+
+        /* --- Activity Item --- */
+        .activity {
+            position: relative;
+            padding-left: 24px;
+            padding-bottom: 24px;
+            border-left: 2px solid #E0E0E0;
+        }
+
+        .activity:last-child {
+            padding-bottom: 0;
+            border-left: 2px solid transparent;
+        }
+
+        .activity::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 0 4px #fff; /* whitespace around dot */
+        }
+
+        /* Highlight specific activities */
+        .activity.highlight::before {
+            background: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        .time {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .location-name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.3;
+        }
+
+        .desc {
+            margin-top: 6px;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        /* --- Flight Pass Style --- */
+        .flight-card {
+            background-color: var(--flight-bg);
+            border: 1px dashed var(--flight-border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .flight-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-bottom: 8px;
+        }
+
+        .flight-code {
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 0.9rem;
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .flight-route {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .flight-time-detail {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
         
-        /* Toast Notification */
+        .flight-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        /* --- Action Buttons --- */
+        .action-area {
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-nav {
+            background-color: #E3F2FD;
+            color: #1565C0;
+        }
+        .btn-nav:hover { background-color: #BBDEFB; }
+
+        .btn-copy {
+            background-color: #F5F5F5;
+            color: #616161;
+        }
+        .btn-copy:active { background-color: #E0E0E0; }
+
+        /* --- Toast Notification --- */
         #toast {
             visibility: hidden;
-            min-width: 250px;
-            background-color: #333;
+            min-width: 200px;
+            background-color: rgba(30, 30, 30, 0.9);
             color: #fff;
             text-align: center;
-            border-radius: 8px;
-            padding: 12px;
+            border-radius: 50px;
+            padding: 12px 24px;
             position: fixed;
-            z-index: 99;
+            z-index: 100;
             left: 50%;
             bottom: 30px;
             transform: translateX(-50%);
-            font-size: 0.9em;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            font-size: 0.9rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
         }
-        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.3s, fadeout 0.3s 2.5s;
+        }
 
-        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
-        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+        @keyframes fadein { from {bottom: 10px; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 10px; opacity: 0;} }
 
-        @media (max-width: 600px) {
-            .day-header { flex-direction: column; align-items: flex-start; gap: 5px; }
+        /* Print Optimization */
+        @media print {
+            header { background: none; color: black; box-shadow: none; padding: 10px; }
+            .btn { display: none; }
+            .day-block { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>🇻🇳 越南河內6天5夜之旅</h1>
-            <p>2026/1/24 - 1/29</p>
-        </header>
+    <header>
+        <h1>🇻🇳 越南河內 6天5夜之旅</h1>
+        <p>2026/1/24 — 1/29 • 深度探索</p>
+    </header>
+
+    <div class="container timeline-container">
 
         <div class="day-block">
             <div class="day-header">
-                <div class="day-title">Day 1：古街 & 火車街</div>
+                <div class="day-title">Day 1 <span class="day-badge">古街 & 火車街</span></div>
                 <div class="day-date">1/24 (六)</div>
             </div>
-            
-            <div class="activity flight-info">
-                <div class="activity-content">
-                    <span class="time">08:25</span> 
-                    <span class="location-name" style="color: var(--flight-text)">🛫 台北 (TPE) 起飛</span>
-                    <span class="flight-badge">CI 791</span>
-                    <div class="desc">前往河內內排國際機場。</div>
+            <div class="day-body">
+                
+                <div class="flight-card">
+                    <div class="flight-header">
+                        <span class="flight-code">CI 791</span>
+                        <span class="flight-label">China Airlines</span>
+                    </div>
+                    <div class="flight-route">
+                        <div>
+                            <span class="flight-time-detail">08:25</span>
+                            <br><span class="flight-label">台北 TPE</span>
+                        </div>
+                        <div style="flex:1; text-align:center; color:#A3CFC3;">✈</div>
+                        <div style="text-align:right;">
+                            <span class="flight-time-detail">10:35</span>
+                            <br><span class="flight-label">河內 HAN</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="activity flight-info">
-                <div class="activity-content">
-                    <span class="time">10:35</span> 
-                    <span class="location-name" style="color: var(--flight-text)">🛬 抵達河內 (HAN)</span>
-                    <div class="desc">辦理入境簽證、領行李、換匯，準備前往市區。</div>
-                    <div class="btn-group">
-                        <a href="https://www.google.com/maps/search/?api=1&query=Noi+Bai+International+Airport" target="_blank" class="nav-btn">🗺️ 導航</a>
+
+                <div class="activity">
+                    <span class="time">11:00</span>
+                    <span class="location-name">機場接送 ➝ 市區</span>
+                    <div class="desc">辦理簽證後，搭乘 Grab 前往飯店。</div>
+                </div>
+
+                <div class="activity highlight">
+                    <span class="time">12:30</span>
+                    <span class="location-name">入住 La Mejor Indochine Hotel</span>
+                    <div class="desc">位於古街東河門旁，位置絕佳。</div>
+                    <div class="action-area">
+                        <button class="btn btn-copy" onclick="copyText('58 Pho Dao Duy Tu, Hang Buom, Hoan Kiem')">📋 複製地址</button>
+                        <a href="https://www.google.com/maps/search/?api=1&query=La+Mejor+Indochine+Hotel" target="_blank" class="btn btn-nav">🗺️ 導航</a>
+                    </div>
+                </div>
+
+                <div class="activity">
+                    <span class="time">13:00</span>
+                    <span class="location-name">午餐：Bun Cha Ta 或 Pho 10</span>
+                    <div class="action-area">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Bun+Cha+Ta+Hanoi" target="_blank" class="btn btn-nav">🗺️ 導航 (烤肉米線)</a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Pho+10+Ly+Quoc+Su" target="_blank" class="btn btn-nav">🗺️ 導航 (牛肉河粉)</a>
+                    </div>
+                </div>
+
+                <div class="activity highlight">
+                    <span class="time">14:30</span>
+                    <span class="location-name">🔥 重點：火車街 (Train Street)</span>
+                    <div class="desc">前往 Tran Phu 路口，找咖啡廳坐下等待 15:20 左右的火車。</div>
+                    <div class="action-area">
+                        <button class="btn btn-copy" onclick="copyText('5 Tran Phu, Hang Bong')">📋 複製地址</button>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Train+Street+Hanoi+5+Tran+Phu" target="_blank" class="btn btn-nav">🗺️ 導航</a>
+                    </div>
+                </div>
+
+                <div class="activity">
+                    <span class="time">18:30</span>
+                    <span class="location-name">週末夜市 & Ta Hien 啤酒街</span>
+                    <div class="action-area">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Hanoi+Night+Market" target="_blank" class="btn btn-nav">🗺️ 導航 (夜市)</a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Ta+Hien+Beer+Street" target="_blank" class="btn btn-nav">🗺️ 導航 (啤酒街)</a>
                     </div>
                 </div>
             </div>
-
-            <div class="activity">
-                <span class="time">12:30</span> 
-                <span class="location-name">La Mejor Indochine Hotel (入住)</span>
-                <div class="desc">叫 Grab 前往飯店寄放行李或 Check-in。位於東河門旁。</div>
-                <div class="btn-group">
-                    <button class="address-btn" onclick="copyText('58 Pho Dao Duy Tu, Hang Buom, Hoan Kiem')">📋 複製地址</button>
-                    <a href="https://www.google.com/maps/search/?api=1&query=La+Mejor+Indochine+Hotel" target="_blank" class="nav-btn">🗺️ 導航</a>
-                </div>
-            </div>
-
-            <div class="activity">
-                <span class="time">13:00</span> 
-                <span class="location-name">午餐：Bun Cha Ta 或 Pho 10</span>
-                <div class="desc">享受道地烤肉米線或牛肉河粉。</div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=Bun+Cha+Ta+Hanoi" target="_blank" class="nav-btn">🗺️ 導航 (Bun Cha Ta)</a>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Pho+10+Ly+Quoc+Su" target="_blank" class="nav-btn">🗺️ 導航 (Pho 10)</a>
-                </div>
-            </div>
-
-            <div class="activity">
-                <span class="time">14:30</span> 
-                <span class="location-name">🔥 重點：火車街 (Train Street)</span>
-                <div class="desc">前往 5 Tran Phu 路口，找一家咖啡廳坐下。 <br><b>目標：等待 15:20 左右的火車經過。</b></div>
-                <div class="btn-group">
-                    <button class="address-btn" onclick="copyText('5 Tran Phu, Hang Bong')">📋 複製地址</button>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Hanoi+Train+Street+5+Tran+Phu" target="_blank" class="nav-btn">🗺️ 導航</a>
-                </div>
-            </div>
-
-            <div class="activity">
-                <span class="time">18:30</span> 
-                <span class="location-name">週末夜市 & Ta Hien 啤酒街</span>
-                <div class="desc">從 Hang Dao 街開始逛週末限定夜市。</div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=Hanoi+Night+Market" target="_blank" class="nav-btn">🗺️ 導航 (夜市)</a>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Ta+Hien+Beer+Street" target="_blank" class="nav-btn">🗺️ 導航 (啤酒街)</a>
-                </div>
-            </div>
         </div>
 
         <div class="day-block">
             <div class="day-header">
-                <div class="day-title">Day 2：寧平亮點一日遊 (Pelago)</div>
+                <div class="day-title">Day 2 <span class="day-badge">寧平一日遊</span></div>
                 <div class="day-date">1/25 (日)</div>
             </div>
-            <div class="activity">
-                <span class="time">07:45</span> 
-                <span class="location-name">導遊接送</span>
-                <div class="desc">於 La Mejor 飯店門口集合。參加 <b>Full-Day Ninh Binh Highlights Tour</b>。</div>
-            </div>
-            <div class="activity">
-                <span class="time">上午</span> 
-                <span class="location-name">華閻古都 (Hoa Lu Ancient Capital)</span>
-                <div class="desc">參觀丁、黎朝的歷史古蹟與廟宇。</div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=Hoa+Lu+Ancient+Capital" target="_blank" class="nav-btn">🗺️ 導航</a>
+            <div class="day-body">
+                <div class="activity">
+                    <span class="time">07:45</span>
+                    <span class="location-name">導遊接送 (Pelago Tour)</span>
+                    <div class="desc">於 La Mejor 飯店門口集合。參加 <b>Full-Day Ninh Binh Highlights Tour</b>。</div>
                 </div>
-            </div>
-            <div class="activity">
-                <span class="time">中午</span> 
-                <span class="location-name">當地午餐</span>
-                <div class="desc">享用包含羊肉料理的越式自助午餐。</div>
-            </div>
-            <div class="activity">
-                <span class="time">下午</span> 
-                <span class="location-name">三谷遊船 (Tam Coc)</span>
-                <div class="desc">乘坐手搖船沿著 Ngo Dong 河行駛，穿過三個洞穴，欣賞「陸地上的下龍灣」美景。(部分行程可能依當日安排調整為長安)</div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=Tam+Coc+Boat+Ride" target="_blank" class="nav-btn">🗺️ 導航</a>
+
+                <div class="activity">
+                    <span class="time">上午</span>
+                    <span class="location-name">華閻古都 (Hoa Lu)</span>
+                    <div class="desc">參觀越南丁、黎朝的歷史古蹟。</div>
+                    <div class="action-area">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Hoa+Lu+Ancient+Capital" target="_blank" class="btn btn-nav">🗺️ 導航</a>
+                    </div>
                 </div>
-            </div>
-            <div class="activity">
-                <span class="time">下午</span> 
-                <span class="location-name">臥龍山 (Mua Cave)</span>
-                <div class="desc">挑戰 500 階樓梯，登頂 Lying Dragon Mountain 俯瞰三谷全景。</div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=Mua+Caves" target="_blank" class="nav-btn">🗺️ 導航</a>
+
+                <div class="activity highlight">
+                    <span class="time">下午</span>
+                    <span class="location-name">三谷遊船 (Tam Coc)</span>
+                    <div class="desc">乘坐手搖船穿過三個鐘乳石洞，欣賞「陸地龍灣」。</div>
+                    <div class="action-area">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Tam+Coc+Boat+Ride" target="_blank" class="btn btn-nav">🗺️ 導航</a>
+                    </div>
                 </div>
-            </div>
-            <div class="activity">
-                <span class="time">19:30</span> 
-                <span class="location-name">返回河內</span>
-                <div class="desc">返回飯店休息。</div>
+
+                <div class="activity highlight">
+                    <span class="time">下午</span>
+                    <span class="location-name">臥龍山 (Mua Cave)</span>
+                    <div class="desc">挑戰 500 階樓梯，登頂俯瞰壯觀全景。</div>
+                    <div class="action-area">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Mua+Caves" target="_blank" class="btn btn-nav">🗺️ 導航</a>
+                    </div>
+                </div>
+
+                <div class="activity">
+                    <span class="time">19:30</span>
+                    <span class="location-name">返回河內</span>
+                    <div class="desc">晚餐推薦：Essence Restaurant (精緻越菜)。</div>
+                    <div class="action-area">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Essence+Restaurant+Hanoi" target="_blank" class="btn btn-nav">🗺️ 導航</a>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="day-block">
             <div class="day-header">
-                <div class="day-title">Day 3：Grand Pioneer 郵輪</div>
+                <div class="day-title">Day 3 <span class="day-badge">豪華郵輪</span></div>
                 <div class="day-date">1/26 (一)</div>
             </div>
-            <div class="activity">
-                <span class="time">08:15</span> 
-                <span class="location-name">⚠️ 飯店退房 & 接送</span>
-                <div class="desc"><b>請帶上所有行李</b>，搭乘郵輪接駁車前往下龍灣 (約 2.5 小時)。</div>
-            </div>
-            <div class="activity">
-                <span class="time">12:00</span> 
-                <span class="location-name">登船 Check-in (Tuan Chau Marina)</span>
-                <div class="desc">抵達碼頭，辦理手續後登船享用迎賓午餐。</div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=Tuan+Chau+International+Marina" target="_blank" class="nav-btn">🗺️ 導航</a>
+            <div class="day-body">
+                <div class="activity highlight">
+                    <span class="time">08:15</span>
+                    <span class="location-name">⚠️ 飯店退房 & 接送</span>
+                    <div class="desc"><b>帶上所有行李</b>，搭乘 Grand Pioneer 接駁車前往下龍灣。</div>
                 </div>
-            </div>
-            <div class="activity">
-                <span class="time">下午</span> 
-                <span class="location-name">下龍灣探索</span>
-                <div class="desc">參觀驚訝洞 (Sung Sot Cave)、划獨木舟。享受船上泳池與夕陽派對。</div>
-            </div>
-            <div class="activity">
-                <span class="time">晚上</span> 
-                <span class="location-name">海上晚餐 & 釣小管</span>
-                <div class="desc">在 Grand Pioneer 享用精緻晚餐，體驗夜間釣小管。</div>
+
+                <div class="activity">
+                    <span class="time">12:00</span>
+                    <span class="location-name">登船 (Grand Pioneer Cruise)</span>
+                    <div class="desc">於 Tuan Chau Marina 碼頭 Check-in。</div>
+                    <div class="action-area">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Tuan+Chau+International+Marina" target="_blank" class="btn btn-nav">🗺️ 導航</a>
+                    </div>
+                </div>
+
+                <div class="activity">
+                    <span class="time">下午</span>
+                    <span class="location-name">下龍灣探索</span>
+                    <div class="desc">驚訝洞 (Sung Sot Cave)、划獨木舟、泳池與夕陽派對。</div>
+                </div>
+
+                <div class="activity">
+                    <span class="time">晚上</span>
+                    <span class="location-name">海上晚餐 & 釣小管</span>
+                </div>
             </div>
         </div>
 
         <div class="day-block">
             <div class="day-header">
-                <div class="day-title">Day 4：轉場西湖區</div>
+                <div class="day-title">Day 4 <span class="day-badge">轉場西湖</span></div>
                 <div class="day-date">1/27 (二)</div>
             </div>
-            <div class="activity">
-                <span class="time">11:30</span> 
-                <span class="location-name">下船 & 返回河內</span>
-                <div class="desc">搭乘接駁車返回河內市區。</div>
-            </div>
-            <div class="activity">
-                <span class="time">14:30</span> 
-                <span class="location-name">PARKROYAL Serviced Suites 入住</span>
-                <div class="desc">從接駁車下車點轉搭 Grab 前往西湖區新飯店。</div>
-                <div class="btn-group">
-                    <button class="address-btn" onclick="copyText('5 Dang Thai Mai, Tay Ho')">📋 複製地址</button>
-                    <a href="https://www.google.com/maps/search/?api=1&query=PARKROYAL+Serviced+Suites+Hanoi" target="_blank" class="nav-btn">🗺️ 導航</a>
+            <div class="day-body">
+                <div class="activity">
+                    <span class="time">11:30</span>
+                    <span class="location-name">下船 & 返回河內</span>
                 </div>
-            </div>
-            <div class="activity">
-                <span class="time">晚上</span> 
-                <span class="location-name">西湖畔漫步 & 晚餐</span>
-                <div class="desc">推薦：Pepe la Poule (義式) 或 Pizza 4P's。</div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=Pepe+la+Poule" target="_blank" class="nav-btn">🗺️ 導航 (Pepe)</a>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Pizza+4Ps+Tay+Ho" target="_blank" class="nav-btn">🗺️ 導航 (4P's)</a>
+
+                <div class="activity highlight">
+                    <span class="time">14:30</span>
+                    <span class="location-name">入住 PARKROYAL Serviced Suites</span>
+                    <div class="desc">位於西湖區 (Tay Ho)，搭 Grab 前往。</div>
+                    <div class="action-area">
+                        <button class="btn btn-copy" onclick="copyText('5 Dang Thai Mai, Tay Ho')">📋 複製地址</button>
+                        <a href="https://www.google.com/maps/search/?api=1&query=PARKROYAL+Serviced+Suites+Hanoi" target="_blank" class="btn btn-nav">🗺️ 導航</a>
+                    </div>
+                </div>
+
+                <div class="activity">
+                    <span class="time">晚上</span>
+                    <span class="location-name">西湖畔晚餐</span>
+                    <div class="desc">推薦 Pepe la Poule (義式景觀) 或 Pizza 4P's。</div>
+                    <div class="action-area">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Pepe+la+Poule" target="_blank" class="btn btn-nav">🗺️ 導航 (Pepe)</a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Pizza+4P's+Tay+Ho" target="_blank" class="btn btn-nav">🗺️ 導航 (4P's)</a>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="day-block">
             <div class="day-header">
-                <div class="day-title">Day 5：海神吃到飽</div>
+                <div class="day-title">Day 5 <span class="day-badge">古蹟 & 吃到飽</span></div>
                 <div class="day-date">1/28 (三)</div>
             </div>
-            <div class="activity">
-                <span class="time">上午</span> 
-                <span class="location-name">胡志明陵寢 & 一柱寺</span>
-                <div class="desc">感受越南歷史莊嚴氛圍。</div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=Ho+Chi+Minh+Mausoleum" target="_blank" class="nav-btn">🗺️ 導航 (陵寢)</a>
-                    <a href="https://www.google.com/maps/search/?api=1&query=One+Pillar+Pagoda" target="_blank" class="nav-btn">🗺️ 導航 (一柱寺)</a>
+            <div class="day-body">
+                <div class="activity">
+                    <span class="time">上午</span>
+                    <span class="location-name">胡志明陵寢 & 一柱寺</span>
+                    <div class="action-area">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Ho+Chi+Minh+Mausoleum" target="_blank" class="btn btn-nav">🗺️ 導航</a>
+                    </div>
                 </div>
-            </div>
-            <div class="activity">
-                <span class="time">12:00</span> 
-                <span class="location-name">午餐：歐巴馬米線</span>
-                <div class="desc">Bun Cha Huong Lien (記得點炸春捲)。</div>
-                <div class="btn-group">
-                    <button class="address-btn" onclick="copyText('24 Le Van Huu')">📋 複製地址</button>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Bun+Cha+Huong+Lien" target="_blank" class="nav-btn">🗺️ 導航</a>
+
+                <div class="activity">
+                    <span class="time">12:00</span>
+                    <span class="location-name">午餐：歐巴馬米線</span>
+                    <div class="desc">Bun Cha Huong Lien。</div>
+                    <div class="action-area">
+                        <button class="btn btn-copy" onclick="copyText('24 Le Van Huu')">📋 複製地址</button>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Bun+Cha+Huong+Lien" target="_blank" class="btn btn-nav">🗺️ 導航</a>
+                    </div>
                 </div>
-            </div>
-            <div class="activity">
-                <span class="time">14:00</span> 
-                <span class="location-name">文廟 & 火爐監獄</span>
-                <div class="desc">市區古蹟巡禮。</div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=Temple+of+Literature+Hanoi" target="_blank" class="nav-btn">🗺️ 導航 (文廟)</a>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Hoa+Lo+Prison" target="_blank" class="nav-btn">🗺️ 導航 (監獄)</a>
+
+                <div class="activity">
+                    <span class="time">14:00</span>
+                    <span class="location-name">文廟 & 火爐監獄</span>
+                    <div class="action-area">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Temple+Of+Literature+Hanoi" target="_blank" class="btn btn-nav">🗺️ 導航 (文廟)</a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Hoa+Lo+Prison" target="_blank" class="btn btn-nav">🗺️ 導航 (監獄)</a>
+                    </div>
                 </div>
-            </div>
-            <div class="activity">
-                <span class="time">17:30</span> 
-                <span class="location-name">🦀 Poseidon Buffet (Le Van Luong)</span>
-                <div class="desc"><b>晚餐重頭戲！</b>海鮮火烤兩吃吃到飽。(位於 Hanoi Center Point 大樓)。</div>
-                <div class="btn-group">
-                    <button class="address-btn" onclick="copyText('27 Le Van Luong, Hanoi Center Point')">📋 複製地址</button>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Buffet+Poseidon+Le+Van+Luong" target="_blank" class="nav-btn">🗺️ 導航</a>
+
+                <div class="activity highlight">
+                    <span class="time">17:30</span>
+                    <span class="location-name">🦀 Poseidon Buffet (Le Van Luong)</span>
+                    <div class="desc"><b>晚餐重頭戲！</b>海鮮火烤兩吃吃到飽 (Hanoi Center Point 大樓)。</div>
+                    <div class="action-area">
+                        <button class="btn btn-copy" onclick="copyText('27 Le Van Luong, Hanoi Center Point')">📋 複製地址</button>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Buffet+Poseidon+Le+Van+Luong" target="_blank" class="btn btn-nav">🗺️ 導航</a>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="day-block">
             <div class="day-header">
-                <div class="day-title">Day 6：返台</div>
+                <div class="day-title">Day 6 <span class="day-badge">返台</span></div>
                 <div class="day-date">1/29 (四)</div>
             </div>
-            <div class="activity">
-                <span class="time">11:00</span> 
-                <span class="location-name">退房 & 最後採買</span>
-                <div class="desc">推薦 Lotte Center 超市買伴手禮。</div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=Lotte+Center+Hanoi" target="_blank" class="nav-btn">🗺️ 導航</a>
+            <div class="day-body">
+                <div class="activity">
+                    <span class="time">11:00</span>
+                    <span class="location-name">退房 & 樂天超市採買</span>
+                    <div class="action-area">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Lotte+Center+Hanoi" target="_blank" class="btn btn-nav">🗺️ 導航</a>
+                    </div>
                 </div>
-            </div>
-            <div class="activity">
-                <span class="time">14:00</span> 
-                <span class="location-name">前往機場</span>
-                <div class="desc">從市區搭 Grab 前往內排機場 (T2 國際航廈)，避開塞車時段。</div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=Noi+Bai+International+Airport+Terminal+2" target="_blank" class="nav-btn">🗺️ 導航</a>
+
+                <div class="activity">
+                    <span class="time">14:00</span>
+                    <span class="location-name">前往機場</span>
+                    <div class="desc">前往內排國際機場 (T2) 報到。</div>
+                    <div class="action-area">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Noi+Bai+International+Airport" target="_blank" class="btn btn-nav">🗺️ 導航</a>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="activity flight-info">
-                <div class="activity-content">
-                    <span class="time">17:30</span> 
-                    <span class="location-name" style="color: var(--flight-text)">🛫 河內 (HAN) 起飛</span>
-                    <span class="flight-badge">CI 794</span>
-                    <div class="desc">帶著滿滿的回憶回家。</div>
-                </div>
-            </div>
-            
-            <div class="activity flight-info">
-                <div class="activity-content">
-                    <span class="time">21:10</span> 
-                    <span class="location-name" style="color: var(--flight-text)">🛬 抵達台北 (TPE)</span>
+
+                <div class="flight-card">
+                    <div class="flight-header">
+                        <span class="flight-code">CI 794</span>
+                        <span class="flight-label">China Airlines</span>
+                    </div>
+                    <div class="flight-route">
+                        <div>
+                            <span class="flight-time-detail">17:30</span>
+                            <br><span class="flight-label">河內 HAN</span>
+                        </div>
+                        <div style="flex:1; text-align:center; color:#A3CFC3;">✈</div>
+                        <div style="text-align:right;">
+                            <span class="flight-time-detail">21:10</span>
+                            <br><span class="flight-label">台北 TPE</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <div id="toast">地址已複製！ (Copied)</div>
+    <div id="toast">✅ 地址已複製！</div>
 
     <script>
         function copyText(text) {
